@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Liton&#39;s Gym</title>
+  <meta name="description" content="Liton&#39;s Gym in Naihati, West Bengal — premium demo website built mobile-first with stronger visuals, direct contact actions, and a local community-driven feel." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#070707;
+      --bg-soft:#111111;
+      --panel:#111111;
+      --panel-2:#161616;
+      --line:rgba(255,255,255,.08);
+      --text:#f5f5f5;
+      --muted:#b6b6b6;
+      --white:#ffffff;
+      --red:#d81824;
+      --red-deep:#8f1018;
+      --red-soft:rgba(216,24,36,.12);
+      --shadow:0 20px 60px rgba(0,0,0,.32);
+      --radius:28px;
+      --radius-sm:22px;
+      --max:1240px;
+      --ease:cubic-bezier(.22,1,.36,1);
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:'Inter',system-ui,-apple-system,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(216,24,36,.18), transparent 22%),
+        radial-gradient(circle at 100% 16%, rgba(216,24,36,.10), transparent 18%),
+        linear-gradient(180deg,#050505 0%,#090909 38%,#0f0f0f 100%);
+      overflow-x:hidden;
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+    }
+
+    a{text-decoration:none;color:inherit}
+    img{display:block;max-width:100%}
+    button{font:inherit}
+    .container{width:min(var(--max), calc(100% - 28px));margin-inline:auto}
+    .section{padding:88px 0;position:relative}
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity .82s var(--ease),transform .82s var(--ease)}
+    .reveal.show{opacity:1;transform:none}
+
+    .announce{
+      position:fixed;top:10px;left:0;right:0;z-index:60;pointer-events:none;
+    }
+    .announce-inner{
+      width:min(1240px, calc(100% - 16px));margin:auto;padding:10px 14px;border-radius:18px;
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      background:rgba(13,13,13,.84);backdrop-filter:blur(16px);
+      border:1px solid rgba(255,255,255,.08);box-shadow:0 12px 34px rgba(0,0,0,.28);
+      pointer-events:auto;color:#e9e9e9;font-size:.82rem;
+    }
+    .announce strong{font-weight:800}
+    .announce-badge{
+      padding:8px 11px;border-radius:999px;background:linear-gradient(135deg,var(--red),var(--red-deep));
+      color:#fff;font-size:.74rem;font-weight:800;white-space:nowrap;
+    }
+
+    .header-wrap{
+      position:fixed;top:58px;left:0;right:0;z-index:55;pointer-events:none;
+    }
+    .header{
+      width:min(1240px, calc(100% - 16px));margin:auto;padding:14px;border-radius:24px;
+      background:rgba(10,10,10,.84);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.08);
+      display:flex;align-items:center;justify-content:space-between;gap:14px;box-shadow:var(--shadow);
+      pointer-events:auto;
+    }
+    .brand{display:flex;align-items:center;gap:14px;min-width:0}
+    .brand-mark{
+      width:48px;height:48px;border-radius:16px;display:grid;place-items:center;flex:0 0 auto;
+      font-family:'Syne',sans-serif;font-weight:800;color:#fff;
+      background:linear-gradient(135deg,var(--red),#ff4f5c);
+      box-shadow:0 14px 28px rgba(216,24,36,.24);
+    }
+    .brand-copy strong{display:block;font-size:.96rem;letter-spacing:.03em}
+    .brand-copy span{display:block;margin-top:4px;color:#aaaaaa;font-size:.74rem}
+    .nav{display:flex;align-items:center;gap:8px}
+    .nav a{
+      padding:10px 14px;border-radius:999px;color:#e6e6e6;font-size:.92rem;
+      transition:background .28s var(--ease),transform .28s var(--ease),color .28s var(--ease);
+    }
+    .nav a:hover{background:rgba(255,255,255,.06);transform:translateY(-1px);color:#fff}
+    .actions{display:flex;align-items:center;gap:10px}
+    .thumbs{display:flex;align-items:center;margin-right:2px}
+    .thumbs img{
+      width:34px;height:34px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.92);
+      margin-left:-8px;box-shadow:0 10px 18px rgba(0,0,0,.3)
+    }
+    .thumbs img:first-child{margin-left:0}
+    .btn{
+      min-height:52px;padding:0 20px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;
+      font-weight:800;transition:transform .28s var(--ease),box-shadow .28s var(--ease),background .28s var(--ease);
+    }
+    .btn:hover{transform:translateY(-2px)}
+    .btn-primary{
+      color:#fff;background:linear-gradient(135deg,var(--red),#f03d49);box-shadow:0 16px 32px rgba(216,24,36,.22);
+    }
+    .btn-soft{color:#fff;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08)}
+    .menu-btn{
+      display:none;width:46px;height:46px;border-radius:15px;border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.04);color:#fff;cursor:pointer
+    }
+    .menu-panel{
+      display:none;position:fixed;left:8px;right:8px;top:134px;z-index:54;padding:10px;border-radius:20px;
+      background:rgba(13,13,13,.94);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.08);box-shadow:var(--shadow)
+    }
+    .menu-panel.open{display:block}
+    .menu-panel a{display:block;padding:14px 12px;border-radius:14px;color:#f0f0f0}
+    .menu-panel a:hover{background:rgba(255,255,255,.05)}
+    .menu-actions{display:grid;gap:10px;margin-top:10px}
+
+    .hero{
+      min-height:100vh;padding:172px 0 48px;position:relative;overflow:hidden;
+    }
+    .hero::before{
+      content:"";position:absolute;inset:0;background:
+      linear-gradient(90deg, rgba(0,0,0,.58) 0%, rgba(0,0,0,.22) 52%, rgba(0,0,0,.4) 100%),
+      radial-gradient(circle at 12% 20%, rgba(216,24,36,.18), transparent 24%),
+      radial-gradient(circle at 84% 16%, rgba(255,255,255,.06), transparent 20%);
+      pointer-events:none;
+    }
+    .hero-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:18px;align-items:stretch;position:relative;z-index:1}
+    .hero-copy-wrap{
+      padding:22px 4px 8px 0;display:flex;flex-direction:column;justify-content:center;
+    }
+    .eyebrow{
+      display:inline-flex;align-items:center;gap:10px;padding:10px 15px;border-radius:999px;
+      background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);
+      color:#f3d9dc;font-size:.74rem;text-transform:uppercase;letter-spacing:.12em;font-weight:800;margin-bottom:18px;width:max-content;
+    }
+    .eyebrow::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--red);box-shadow:0 0 0 6px rgba(216,24,36,.18)}
+    h1{
+      margin:0 0 16px;font-family:'Syne',sans-serif;font-size:clamp(2.9rem,6vw,6rem);line-height:.9;letter-spacing:-.06em;
+      max-width:760px;
+    }
+    h1 .accent{color:var(--white)}
+    h1 .stroke{color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.9)}
+    .hero-copy{
+      margin:0 0 24px;max-width:560px;color:#d0d0d0;line-height:1.7;font-size:1rem;
+    }
+    .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:18px}
+    .hero-tags{display:flex;flex-wrap:wrap;gap:10px}
+    .hero-tags span{
+      padding:10px 14px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);
+      color:#efefef;font-size:.86rem;font-weight:700;
+    }
+
+    .hero-visual{
+      display:grid;grid-template-columns:1.2fr .8fr;gap:14px;
+    }
+    .photo-main,.photo-stack img,.glass-card,.split-photo,.gallery-card,.price-card,.cta-panel,.contact-panel{
+      border:1px solid rgba(255,255,255,.08);box-shadow:var(--shadow)
+    }
+    .photo-main{
+      position:relative;min-height:580px;border-radius:32px;overflow:hidden;background:#1a1a1a;
+    }
+    .photo-main img{width:100%;height:100%;object-fit:cover;filter:contrast(1.04) saturate(1.02)}
+    .photo-main::after{
+      content:"";position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.48));
+    }
+    .photo-overlay{
+      position:absolute;left:16px;right:16px;bottom:16px;z-index:2;padding:18px;border-radius:22px;
+      background:rgba(12,12,12,.62);backdrop-filter:blur(14px);display:flex;align-items:flex-end;justify-content:space-between;gap:12px;
+    }
+    .photo-overlay strong{display:block;font-size:1rem;margin-bottom:6px}
+    .photo-overlay span{display:block;color:#c8c8c8;font-size:.88rem;line-height:1.5}
+    .pill{
+      padding:10px 12px;border-radius:18px;background:linear-gradient(135deg,var(--red),var(--red-deep));
+      color:#fff;font-weight:800;font-size:.84rem;white-space:nowrap
+    }
+    .photo-stack{display:grid;gap:14px}
+    .photo-stack img{width:100%;height:210px;object-fit:cover;border-radius:26px;background:#1a1a1a}
+    .glass-card{
+      padding:20px;border-radius:26px;background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));backdrop-filter:blur(14px)
+    }
+    .glass-card h3{margin:0 0 10px;font-size:1.12rem}
+    .glass-card p{margin:0;color:#cbcbcb;line-height:1.62}
+    .mini-points{display:grid;gap:9px;margin-top:14px}
+    .mini-points div{
+      display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:16px;background:rgba(255,255,255,.04);color:#f1f1f1;font-size:.92rem
+    }
+    .dot{width:9px;height:9px;border-radius:50%;background:var(--red);box-shadow:0 0 0 5px rgba(216,24,36,.14);flex:0 0 auto}
+
+    .stats-band{
+      margin-top:18px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;
+    }
+    .stat{
+      padding:18px;border-radius:24px;background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid rgba(255,255,255,.08);box-shadow:var(--shadow)
+    }
+    .stat strong{display:block;font-family:'Syne',sans-serif;font-size:1.9rem;letter-spacing:-.04em;margin-bottom:4px}
+    .stat span{display:block;color:#cccccc;font-size:.9rem}
+
+    .section-head{max-width:760px;margin-bottom:20px}
+    .kicker{margin:0 0 10px;color:#f0a9af;font-size:.78rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+    .section-head h2{margin:0;font-family:'Syne',sans-serif;font-size:clamp(2rem,4.5vw,4rem);line-height:.94;letter-spacing:-.05em}
+    .section-head p{margin:12px 0 0;color:#c9c9c9;line-height:1.7}
+
+    .split-showcase{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .split-photo{position:relative;min-height:420px;border-radius:30px;overflow:hidden;background:#1a1a1a}
+    .split-photo img{width:100%;height:100%;object-fit:cover}
+    .split-copy{
+      position:absolute;left:16px;right:16px;bottom:16px;padding:18px;border-radius:20px;background:rgba(12,12,12,.62);backdrop-filter:blur(12px)
+    }
+    .split-copy strong{display:block;font-size:1.1rem;margin-bottom:6px}
+    .split-copy span{display:block;color:#cccccc;font-size:.9rem;line-height:1.55}
+
+    .gallery-grid{display:grid;grid-template-columns:1.2fr .8fr .8fr;grid-auto-rows:200px;gap:16px}
+    .gallery-card{position:relative;border-radius:28px;overflow:hidden;background:#161616}
+    .gallery-card.tall{grid-row:span 2}
+    .gallery-card.wide{grid-column:span 2}
+    .gallery-card img{width:100%;height:100%;object-fit:cover}
+    .gallery-card::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg, transparent 40%, rgba(0,0,0,.52) 100%)}
+    .gallery-tag{
+      position:absolute;left:14px;bottom:14px;z-index:2;padding:10px 12px;border-radius:16px;background:rgba(12,12,12,.66);backdrop-filter:blur(12px);font-weight:800;font-size:.84rem
+    }
+
+    .pricing{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+    .price-card{
+      padding:24px;border-radius:28px;background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      position:relative;overflow:hidden;
+    }
+    .price-card::before{
+      content:"";position:absolute;inset:auto -34px -42px auto;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle, rgba(216,24,36,.22), transparent 66%);
+    }
+    .price-card.highlight{background:linear-gradient(180deg, rgba(216,24,36,.18), rgba(255,255,255,.04));transform:translateY(-4px)}
+    .price-card small{display:inline-flex;padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.07);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;font-weight:800}
+    .price-card h3{margin:14px 0 10px;font-size:1.26rem}
+    .price{
+      font-family:'Syne',sans-serif;font-size:2.2rem;letter-spacing:-.04em;margin-bottom:10px;color:#fff
+    }
+    .price-card p{margin:0;color:#cccccc;line-height:1.62}
+
+    .cta-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .cta-panel,.contact-panel{
+      padding:24px;border-radius:30px;background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+    }
+    .cta-panel h3,.contact-panel h3{margin:0 0 10px;font-size:1.26rem}
+    .cta-panel p,.contact-panel p{margin:0;color:#cccccc;line-height:1.68}
+    .placeholder-list{display:grid;gap:10px;margin-top:16px}
+    .placeholder-list div{
+      padding:12px 14px;border-radius:16px;background:rgba(255,255,255,.05);color:#f1f1f1;border:1px solid rgba(255,255,255,.06)
+    }
+
+    .sticky-cta{
+      position:fixed;left:10px;right:10px;bottom:10px;z-index:70;display:none;gap:10px;padding:8px;border-radius:18px;
+      background:rgba(12,12,12,.94);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.08);box-shadow:var(--shadow)
+    }
+    .sticky-cta a{flex:1}
+    .footer{padding:24px 0 96px;color:#9e9e9e;text-align:center;font-size:.86rem}
+
+    @media (max-width: 1120px){
+      .hero-grid,.split-showcase,.cta-grid{grid-template-columns:1fr}
+      .hero-visual,.gallery-grid{grid-template-columns:1fr 1fr}
+      .gallery-card.wide{grid-column:span 2}
+      .stats-band,.pricing{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .photo-main{min-height:500px}
+    }
+
+    @media (max-width: 920px){
+      .header-wrap{top:50px}
+      .nav,.actions .btn-primary{display:none}
+      .menu-btn{display:grid;place-items:center}
+      .hero{padding:150px 0 32px;min-height:auto}
+      .hero-actions{display:grid;grid-template-columns:1fr 1fr}
+      .sticky-cta{display:flex}
+    }
+
+    @media (max-width: 720px){
+      .container{width:min(100%, calc(100% - 16px))}
+      .announce{top:8px}
+      .announce-inner{width:min(100%, calc(100% - 10px));padding:8px 10px;border-radius:14px;font-size:.75rem}
+      .announce-badge{font-size:.68rem;padding:7px 9px}
+      .header-wrap{top:44px}
+      .header{width:min(100%, calc(100% - 10px));padding:11px 12px;border-radius:18px}
+      .brand-mark{width:42px;height:42px;border-radius:14px}
+      .brand-copy strong{font-size:.88rem}
+      .brand-copy span{display:none}
+      .thumbs{display:none}
+      .menu-panel{top:120px}
+      .hero{padding:134px 0 24px}
+      .eyebrow{margin-bottom:12px;padding:8px 12px;font-size:.68rem}
+      h1{font-size:clamp(2.2rem,11vw,3.7rem);line-height:.95;margin-bottom:12px}
+      .hero-copy{font-size:.92rem;line-height:1.58;margin-bottom:16px}
+      .hero-actions{grid-template-columns:1fr;gap:10px}
+      .btn{min-height:50px;font-size:.95rem}
+      .hero-tags{gap:8px}
+      .hero-tags span{font-size:.8rem;padding:8px 11px}
+      .hero-visual,.stats-band,.split-showcase,.pricing,.cta-grid,.gallery-grid,.photo-stack{grid-template-columns:1fr}
+      .photo-main{min-height:360px;border-radius:24px}
+      .photo-overlay{padding:14px;border-radius:18px}
+      .photo-stack img{height:170px;border-radius:20px}
+      .glass-card,.price-card,.cta-panel,.contact-panel,.stat{padding:18px;border-radius:22px}
+      .gallery-grid{grid-auto-rows:180px}
+      .gallery-card.wide,.gallery-card.tall{grid-column:auto;grid-row:auto}
+      .split-photo{min-height:280px;border-radius:22px}
+      .split-copy{left:12px;right:12px;bottom:12px;padding:14px;border-radius:16px}
+      .section{padding:56px 0}
+      .sticky-cta{display:grid;grid-template-columns:1fr 1fr}
+      .footer{padding-bottom:92px}
+    }
+  </style>
+</head>
+<body>
+  <div class="announce">
+    <div class="announce-inner">
+      <div><strong>Now adapted for <strong>Liton&#39;s Gym, Naihati</strong> • local feel • stronger mobile selling • direct call and WhatsApp actions.</div>
+      <div class="announce-badge">Naihati Demo</div>
+    </div>
+  </div>
+
+  <header class="header-wrap">
+    <div class="header">
+      <a href="#home" class="brand" aria-label="Liton&#39;s Gym home">
+        <div class="brand-mark">LG</div>
+        <div class="brand-copy">
+          <strong>Liton&#39;s Gym</strong>
+          <span>Naihati • Body Mind Health Club</span>
+        </div>
+      </a>
+
+      <nav class="nav" aria-label="Primary">
+        <a href="#experience">Why Join</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#plans">Plans</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <div class="actions">
+        <div class="thumbs" aria-hidden="true">
+          <img src="https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg?auto=compress&cs=tinysrgb&w=300" alt="">
+          <img src="https://images.pexels.com/photos/3838389/pexels-photo-3838389.jpeg?auto=compress&cs=tinysrgb&w=300" alt="">
+          <img src="https://images.pexels.com/photos/949129/pexels-photo-949129.jpeg?auto=compress&cs=tinysrgb&w=300" alt="">
+        </div>
+        <a href="tel:+919339755036" class="btn btn-primary">Call Now</a>
+        <button class="menu-btn" aria-label="Open menu" id="menuBtn">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="menu-panel" id="menuPanel">
+    <a href="#experience">Why Join</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#plans">Plans</a>
+    <a href="#contact">Contact</a>
+    <div class="menu-actions">
+      <a href="tel:+919339755036" class="btn btn-primary">Call Now</a>
+      <a href="https://wa.me/919339755036" class="btn btn-soft" target="_blank" rel="noopener">WhatsApp</a>
+    </div>
+  </div>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div class="hero-copy-wrap">
+          <div class="eyebrow reveal">Naihati Fitness Space • Liton&#39;s Gym</div>
+          <h1 class="reveal"><span class="accent">Train.</span> <span class="stroke">Transform.</span> <span class="accent">Repeat.</span></h1>
+          <p class="hero-copy reveal">A sharper local website concept for Liton&#39;s Gym — built to feel energetic, approachable, and real for people searching fitness options around Naihati. The online brand trail also points to a wider “Body Mind Health Club” identity around the gym.</p>
+          <div class="hero-actions reveal">
+            <a href="tel:+919339755036" class="btn btn-primary">Call Liton&#39;s Gym</a>
+            <a href="https://wa.me/919339755036" class="btn btn-soft" target="_blank" rel="noopener">Chat on WhatsApp</a>
+          </div>
+          <div class="hero-tags reveal">
+            <span>Strength Training</span>
+            <span>Body Transformation</span>
+            <span>Fat Loss + Muscle Gain</span>
+            <span>Local Gym Community</span>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="photo-main reveal">
+            <img src="https://images.pexels.com/photos/1552242/pexels-photo-1552242.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Liton's Gym style hero image">
+            <div class="photo-overlay">
+              <div>
+                <strong>Train with focus in Naihati</strong>
+                <span>Built for a local gym that wants to feel serious, energetic, and approachable.</span>
+              </div>
+              <div class="pill">Liton's Gym</div>
+            </div>
+          </div>
+          <div class="photo-stack">
+            <img class="reveal" src="https://images.pexels.com/photos/4498294/pexels-photo-4498294.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Guided training">
+            <img class="reveal" src="https://images.pexels.com/photos/1954524/pexels-photo-1954524.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Strength zone visual for Liton's Gym demo">
+            <div class="glass-card reveal">
+              <h3>Local energy, stronger identity</h3>
+              <p>A sharper demo direction for a real Naihati gym with direct action buttons and a community-driven feel.</p>
+              <div class="mini-points">
+                <div><span class="dot"></span> Direct call and WhatsApp flow</div>
+                <div><span class="dot"></span> Community and transformation angle</div>
+                <div><span class="dot"></span> Cleaner mobile-first layout</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container stats-band">
+        <div class="stat reveal"><strong>01</strong><span>Naihati location</span></div>
+        <div class="stat reveal"><strong>02</strong><span>Call / WhatsApp CTA</span></div>
+        <div class="stat reveal"><strong>03</strong><span>Community-led brand feel</span></div>
+        <div class="stat reveal"><strong>04</strong><span>Mobile-first design</span></div>
+      </div>
+    </section>
+
+    <section class="section" id="experience">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="kicker">Why join works</p>
+          <h2>A website that feels like a real local fitness brand, not a random template.</h2>
+          <p>The page is shaped around Liton's Gym, Naihati, with a stronger local identity and faster contact flow.</p>
+        </div>
+
+        <div class="split-showcase">
+          <div class="split-photo reveal">
+            <img src="https://images.pexels.com/photos/2294361/pexels-photo-2294361.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Transformation training visual for Liton's Gym demo">
+            <div class="split-copy">
+              <strong>Transformation mindset</strong>
+              <span>Use this area to sell consistency, visible progress, and the feeling of joining a serious fitness space close to home.</span>
+            </div>
+          </div>
+          <div class="split-photo reveal">
+            <img src="https://images.pexels.com/photos/6456306/pexels-photo-6456306.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Community training visual for Liton's Gym demo">
+            <div class="split-copy">
+              <strong>Community training vibe</strong>
+              <span>Online traces point to Liton's Gym having a community side too, with annual-function and competition-style activity around the gym.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="gallery">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="kicker">Inside the vibe</p>
+          <h2>A visual layout that feels more like Liton's Gym and less like a generic demo.</h2>
+          <p>Even without original photos yet, this structure is ready to swap into a real branded showcase.</p>
+        </div>
+
+        <div class="gallery-grid">
+          <div class="gallery-card tall reveal">
+            <img src="https://images.pexels.com/photos/6456297/pexels-photo-6456297.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Workout atmosphere">
+            <div class="gallery-tag">Training floor energy</div>
+          </div>
+          <div class="gallery-card reveal">
+            <img src="https://images.pexels.com/photos/949129/pexels-photo-949129.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Cardio area">
+            <div class="gallery-tag">Cardio focus</div>
+          </div>
+          <div class="gallery-card reveal">
+            <img src="https://images.pexels.com/photos/3838389/pexels-photo-3838389.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Coach movement">
+            <div class="gallery-tag">Guided training</div>
+          </div>
+          <div class="gallery-card wide reveal">
+            <img src="https://images.pexels.com/photos/5327536/pexels-photo-5327536.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Machine and strength area">
+            <div class="gallery-tag">Strength and equipment</div>
+          </div>
+          <div class="gallery-card reveal">
+            <img src="https://images.pexels.com/photos/414029/pexels-photo-414029.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Premium equipment detail">
+            <div class="gallery-tag">Discipline and routine</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="plans">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="kicker">Membership options</p>
+          <h2>Simple joining options — contact the gym directly for current plans and offers.</h2>
+          <p>Exact prices were not provided, so this version stays honest and pushes visitors toward direct inquiry.</p>
+        </div>
+
+        <div class="pricing">
+          <div class="price-card reveal">
+            <small>Quick Start</small>
+            <h3>Monthly Joining</h3>
+            <div class="price">Call</div>
+            <p>Best for getting started with a fresh routine, strength work, or basic fitness consistency.</p>
+          </div>
+          <div class="price-card highlight reveal">
+            <small>Best Value</small>
+            <h3>Quarterly Plan</h3>
+            <div class="price">WhatsApp</div>
+            <p>Ideal for people who want a more serious body transformation and a stronger commitment cycle.</p>
+          </div>
+          <div class="price-card reveal">
+            <small>Longer Run</small>
+            <h3>Long-Term Training</h3>
+            <div class="price">Visit</div>
+            <p>For members aiming at discipline, long-term progress, and a more complete fitness journey.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="container cta-grid">
+        <div class="cta-panel reveal">
+          <p class="kicker">Why join</p>
+          <h3>Built around Liton's Gym, Naihati.</h3>
+          <p>This version is designed to present Liton's Gym as a real local destination for training, fitness discipline, and community-driven motivation.</p>
+          <div class="mini-points">
+            <div><span class="dot"></span> Focused local fitness identity</div>
+            <div><span class="dot"></span> Fast mobile call and WhatsApp actions</div>
+            <div><span class="dot"></span> Ready for real photos and offers</div>
+          </div>
+        </div>
+
+        <div class="contact-panel reveal">
+          <p class="kicker">Contact Liton's Gym</p>
+          <h3>Real business details are already placed in.</h3>
+          <p>This section gives visitors a quick way to call, message, or open the location directly.</p>
+          <div class="placeholder-list">
+            <div>Liton&#39;s Gym</div>
+            <div>VCRG+P7G, Naihati, West Bengal 743165</div>
+            <div>Phone / WhatsApp: +91 93397 55036</div>
+            <div>Body Mind Health Club • Naihati</div>
+          </div>
+          <div class="hero-actions" style="margin-top:18px;margin-bottom:0;">
+            <a href="https://maps.google.com/?q=VCRG%2BP7G%2C%20Naihati%2C%20West%20Bengal%20743165" class="btn btn-soft" target="_blank" rel="noopener">Open Maps</a>
+            <a href="tel:+919339755036" class="btn btn-primary">Call Now</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">Liton&#39;s Gym demo website — tailored for Naihati with a stronger local feel, cleaner mobile layout, and direct call / WhatsApp contact flow.</div>
+  </footer>
+
+  <div class="sticky-cta">
+    <a href="tel:+919339755036" class="btn btn-primary">Call Now</a>
+    <a href="https://wa.me/919339755036" class="btn btn-soft" target="_blank" rel="noopener">WhatsApp</a>
+  </div>
+
+  <script>
+    const menuBtn = document.getElementById('menuBtn');
+    const menuPanel = document.getElementById('menuPanel');
+
+    if (menuBtn && menuPanel) {
+      menuBtn.addEventListener('click', () => menuPanel.classList.toggle('open'));
+      menuPanel.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => menuPanel.classList.remove('open'));
+      });
+      document.addEventListener('click', (e) => {
+        if (!menuPanel.contains(e.target) && !menuBtn.contains(e.target)) {
+          menuPanel.classList.remove('open');
+        }
+      });
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.14 });
+
+    document.querySelectorAll('.reveal').forEach((el, i) => {
+      el.style.transitionDelay = `${Math.min(i * 0.04, 0.28)}s`;
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
